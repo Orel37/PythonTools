@@ -1,27 +1,35 @@
 class Tree:
     """Class Tree : a node can contain an indefined number of subtrees"""
 
-    def __init__(self, node, sons=[]):
-        self.Node = node
-        self.Subs = sons
+    def __init__(self, iNode, iSubtrees=[]):
+        self.Node = iNode
+        self.Subtrees = iSubtrees
 
     def __str__(self):
-        if self.Subs == []:
+        if self.Subtrees == []:
             return str(self.Node)
         else:
             aListOfNodes = []
-            for subtree in self.Subs:
+            for subtree in self.Subtrees:
                 aListOfNodes.append(str(subtree))
             return str(self.Node) + ':[' + str(', '.join(aListOfNodes))+ ']'
 
     def getNode(self):
         return self.Node
 
-    def getSubs(self):
-        return self.Subs
+    def setNode(self, iValueNode):
+        self.Node = iValueNode
 
+    def removeNode(self, iNodeValue):
+        for subtree in self.Subtrees:
+            if iNodeValue == subtree.getNode():
+                self.Subtrees.remove(subtree)
+
+
+    def getSubs(self):
+        return self.Subtrees
     def addTree(self, iTree):
-        self.Subs.append(iTree)
+        self.Subtrees.append(iTree)
 
     def add_path(self, iListOfValueNodes):
         # Adds a node with all the parents specified beforehand
