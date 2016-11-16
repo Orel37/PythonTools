@@ -41,6 +41,11 @@ class TestTree(unittest.TestCase):
         aTree2.addTree(aTree1)
         self.assertEqual("4:[3, 5, 7]", str(aTree2))
 
+    def test_buildTreeFromList(self):
+        aTree2 = Tree(4, [Tree(3, [Tree(5)])])
+        aListOfNodes = [4, 3, 5]
+        self.assertEqual(str(aTree2), str(Tree.buildTreeFromList(aListOfNodes)))
+
     # def test_add_path(self):
     #     aTree2 = Tree(4, [Tree(3), Tree(5)])
     #     aTree2.add_path([4, 3, 6])

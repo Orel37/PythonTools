@@ -25,18 +25,26 @@ class Tree:
             if iNodeValue == subtree.getNode():
                 self.Subtrees.remove(subtree)
 
-
     def getSubs(self):
         return self.Subtrees
+
     def addTree(self, iTree):
         self.Subtrees.append(iTree)
 
-    def add_path(self, iListOfValueNodes):
+    def buildTreeFromList(iListOfValueNodes):
+        if len(iListOfValueNodes) == 1:
+            return Tree(iListOfValueNodes.pop(0))
+        else:
+            currentNode = iListOfValueNodes.pop(0)
+            return Tree(currentNode, [Tree.buildTreeFromList(iListOfValueNodes)])
+
+    def addPath(self, iListOfValueNodes):
         # Adds a node with all the parents specified beforehand
-        # Ex : if Tree(3, [Tree(4), Tree(5)]).add_path([4, 6])
+        # Ex : if Tree(3, [Tree(4), Tree(5)]).addPath([4, 6])
         #       returns Tree(3, [Tree(4, [Tree(6)], Tree(5)])
         # The first element of the Node is not the root
         pass
+
 
 
 
