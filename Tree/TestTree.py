@@ -63,6 +63,11 @@ class TestTree(unittest.TestCase):
         self.assertFalse(aTree1.hasChildren())
         self.assertTrue(aTree2.hasChildren())
 
+    def test_hasSameRoot(self):
+        aTree2 = Tree(4, [Tree(3, [Tree(5)])])
+        aTree3 = Tree(4, [Tree(4, [Tree(6)]), Tree(5), Tree(9)])
+        self.assertTrue(aTree2.hasSameRoot(aTree3))
+
     def test_getNumberOfNodes(self):
         aTree1 = Tree(7)
         aTree2 = Tree(4, [Tree(3, [Tree(5)])])

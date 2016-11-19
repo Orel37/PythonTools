@@ -31,6 +31,9 @@ class Tree:
     def hasChildren(self):
         return self.Children != []
 
+    def hasSameRoot(self, iTree):
+        return self.Node == iTree.getNode()
+
     def getNumberOfNodes(self):
         if not self.hasChildren:
             return 1
