@@ -6,11 +6,11 @@ class TestTree(unittest.TestCase):
     def test_init(self):
         aTree1 = Tree(3)
         self.assertEqual(3, aTree1.getNode())
-        self.assertEqual([], aTree1.getSubs())
+        self.assertEqual([], aTree1.getChildren())
 
         aTree2 = Tree(4, [Tree(3), Tree(5)])
         self.assertEqual(4, aTree2.getNode())
-        self.assertEqual(2, len(aTree2.getSubs()))
+        self.assertEqual(2, len(aTree2.getChildren()))
 
     def test_str(self):
         aTree1 = Tree(3)
@@ -46,13 +46,64 @@ class TestTree(unittest.TestCase):
         aListOfNodes = [4, 3, 5]
         self.assertEqual(str(aTree2), str(Tree.buildTreeFromList(aListOfNodes)))
 
-    # def test_add_path(self):
-    #     aTree2 = Tree(4, [Tree(3), Tree(5)])
-    #     aTree2.add_path([4, 3, 6])
-    #     for subtree in aTree2.getSubs():
-    #         if subtree.getNode() == 3:
-    #             self.assertEqual(6, subtree.getSubs()[0])
+        aTree3 = Tree(4, [Tree(3, [Tree(2, [Tree(9, [Tree(7)])])])])
+        aListOfNodes2 = [4, 3, 2, 9, 7]
+        self.assertEqual(str(aTree3), str(Tree.buildTreeFromList(aListOfNodes2)))
 
+    def test_hasNode(self):
+        aTree2 = Tree(4, [Tree(3), Tree(5)])
+        self.assertTrue(aTree2.hasNode(3))
+        self.assertTrue(aTree2.hasNode(5))
+        self.assertFalse(aTree2.hasNode(4))
+        self.assertFalse(aTree2.hasNode(6))
+
+    def test_hasChildren(self):
+        aTree1 = Tree(7)
+        aTree2 = Tree(4, [Tree(3, [Tree(5)])])
+        self.assertFalse(aTree1.hasChildren())
+        self.assertTrue(aTree2.hasChildren())
+
+    def test_getNumberOfNodes(self):
+        aTree1 = Tree(7)
+        aTree2 = Tree(4, [Tree(3, [Tree(5)])])
+        aTree3 = Tree(4, [Tree(3, [Tree(2, [Tree(9, [Tree(7)])])])])
+        aTree4 = Tree(3, [Tree(4, [Tree(6)]), Tree(5), Tree(9)])
+        self.assertEqual(1, aTree1.getNumberOfNodes())
+        self.assertEqual(3, aTree2.getNumberOfNodes())
+        self.assertEqual(5, aTree3.getNumberOfNodes())
+        self.assertEqual(5, aTree4.getNumberOfNodes())
+
+    def test_concat(self):
+        aTree1 = Tree(4, [Tree(3)])
+        aTree2 = Tree(4, [Tree(5)])
+        aTree1.concatTree(aTree2)
+        self.assertEqual(str(Tree(4, [Tree(3), Tree(5)])), str(aTree1))
+
+        aTree3 = Tree(4)
+        aTree4 = Tree(4, [Tree(7)])
+        aTree3.concatTree(aTree4)
+        self.assertEqual(str(Tree(4, [Tree(7)])), str(aTree3))
+
+        aTree5 = Tree(5, [Tree(7)])
+        aTree6 = Tree(5)
+        aTree5.concatTree(aTree6)
+        self.assertEqual(str(Tree(5, [Tree(7)])), str(aTree5))
+
+        aTree7 = Tree(3, [Tree(4), Tree(5)])
+        aTree8 = Tree(3, [Tree(4, [Tree(6)])])
+        aTree7.concatTree(aTree8)
+        self.assertEqual(str(Tree(3, [Tree(4, [Tree(6)]), Tree(5)])), str(aTree7))
+
+        aTree9 = Tree(3, [Tree(4), Tree(5)])
+        aTree10 = Tree(3, [Tree(4, [Tree(6)]), Tree(5)])
+        aTree9.concatTree(aTree10)
+        self.assertEqual(str(Tree(3, [Tree(4, [Tree(6)]), Tree(5)])), str(aTree9))
+
+        aTree11 = Tree(3, [Tree(4), Tree(5)])
+        aTree12 = Tree(3, [Tree(4, [Tree(6)]), Tree(9)])
+        aTree11.concatTree(aTree12)
+        aTreeResult = Tree(3, [Tree(4, [Tree(6)]), Tree(5), Tree(9)])
+        self.assertEqual(str(aTreeResult), str(aTree11))
 
 if __name__ == '__main__':
     unittest.main()
